@@ -1,0 +1,19 @@
+@startuml
+skinparam componentStyle uml2
+component "Event API" as API #line:blue
+component "Administration\nService" as AdminService #line:orange
+component "RabbitMQ" #line:grey
+component Scheduler
+component Worker #line:black
+component Email #line:red
+
+AdminService <-[#orange] Admin: "Формирование\nперсонализированных писем"
+API <-[#orange] AdminService: "Событие\nперсональной рассылки"
+API -[#blue]-> RabbitMQ: "Отправка события\nв очередь"
+RabbitMQ <- Scheduler: "Отправка событий\nв очередь"
+Worker -[#black]> RabbitMQ: "Ожидание событий"
+Worker -[#black]-> Email: "Посылка уведомления"
+Worker -[#black]-> WebSocket: "Посылка уведомления"
+Worker -[#black]-> AnotherReceiver: "Посылка уведомления"
+
+@enduml

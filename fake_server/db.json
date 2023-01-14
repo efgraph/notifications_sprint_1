@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": "2831e77b-463d-4678-b261-cb52684db28a",
+      "email": "user1@email321.com"
+    },
+    {
+      "id": "2831e77b-463d-4678-b261-cb526842b21a",
+      "email": "user2@email321.com"
+    },
+    {
+      "id": "2831e77b-463d-1278-b261-cb52684db211",
+      "email": "user3@email321.com"
+    }
+  ],
+  "top5": [
+    "Rick and Morty", "Game of Thrones", "Black Mirror", "How I Met Your Mother", "Friends"
+  ]
+}

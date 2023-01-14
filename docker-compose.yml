@@ -1,0 +1,61 @@
+version: '3.8'
+
+x-env: &x-env
+  env_file:
+    - .env
+
+services:
+
+  admin:
+    build: ./admin
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    <<: *x-env
+
+  api:
+    build: ./event_api
+    ports:
+      - "10000:10000"
+    depends_on:
+      - rabbit
+    <<: *x-env
+
+  worker:
+    build:
+      context: ./worker
+    ports:
+      - "12345:12345"
+    depends_on:
+      - rabbit
+    <<: *x-env
+
+  scheduler:
+    build:
+      context: ./scheduler
+    ports:
+      - "4400:4400"
+    depends_on:
+      - db
+      - rabbit
+    <<: *x-env
+
+  db:
+    image: postgres:13.2-alpine
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    <<: *x-env
+
+  rabbit:
+    image: rabbitmq:3.6-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  fake-server:
+    build:
+      context: ./fake_server
+    ports:
+      - "4000:4000"
