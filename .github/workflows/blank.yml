@@ -27,4 +27,4 @@ jobs:
           pip install mypy==0.961
       - name: Run tests. Create mypy html report
         run: |
-          mypy api_service/src/db/ --ignore-missing-imports --html-report reports/mypy/
+          mypy event_api/src/core/ --ignore-missing-imports --html-report reports/mypy/
