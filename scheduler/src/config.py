@@ -1,27 +1,17 @@
-from os import getenv
-
-from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
-from jobs import jobs_list
-
-scheduler_thread_pool_str = getenv("SCHEDULER_THREAD_POOL")
-if scheduler_thread_pool_str:
-    scheduler_thread_pool = int(scheduler_thread_pool_str)
-postgres_dsn = getenv("POSTGRES_DSN", "postgresql://postgres:password@localhost:5432")
-rabbit_dsn = getenv("RABBIT_DSN", "amqp://guest:guest@localhost:5672/")
+from pydantic import BaseSettings
+from pydantic.fields import Field
 
 
-class Config:
-    JOBS = jobs_list
+class Settings(BaseSettings):
+    rabbit_dsn: str = Field('amqp://guest:guest@rabbit:5672', env='rabbit_dsn')
+    postgres_dsn: str = Field('postgresql://postgres:password@db:5432', env='postgres_dsn')
 
-    SCHEDULER_JOBSTORES = {"default": SQLAlchemyJobStore(url=postgres_dsn)}
+    ugc_url: str = Field('http://fake-server:4000', env='ugc_url')
+    bookmark_api_prefix: str = Field('/top5/', env='top_10_api_prefix')
+    ugc_timeout: float = Field(60.0, env='ugc_timeout')
 
-    SCHEDULER_EXECUTORS = {
-        "default": {"type": "threadpool", "max_workers": 16}
-    }
+    auth_url: str = Field('http://fake-server:4000', env='auth_url')
+    users_api_prefix: str = Field('/users/', env='users_api_prefix')
 
-    SCHEDULER_JOB_DEFAULTS = {
-        "coalesce": False,
-        "max_instances": 4,
-    }
 
-    SCHEDULER_API_ENABLED = True
+settings = Settings()

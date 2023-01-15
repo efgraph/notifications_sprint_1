@@ -1,6 +1,9 @@
+.DS_Store
 .idea/
 venv
 data
 */.pytest_cache/
 __pycache__/
- *.pyc
+*.pyc
+static/
+log/

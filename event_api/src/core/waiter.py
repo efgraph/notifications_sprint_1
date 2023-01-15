@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 import aio_pika
-import config
+from config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +12,7 @@ async def waiter_rabbit():
     rabbit_status = 0
     while not rabbit_status:
         try:
-            connection = await aio_pika.connect_robust(url=config.RABBIT_DSN)
+            connection = await aio_pika.connect_robust(url=settings.rabbit_dsn)
             await connection.close()
             rabbit_status = 1
         except ConnectionError as exc:

@@ -106,9 +106,8 @@ USE_L10N = True
 USE_TZ = True
 
 
+STATIC_ROOT = '/var/www/'
 STATIC_URL = '/static/'
-
-STATIC_ROOT = '/config/static'
 
 LOGGING = {
     'version': 1,

@@ -5,6 +5,7 @@ from core.rabbit import RabbitService
 from core.sender import SendgridService
 from models import models
 from pydantic import ValidationError
+from core.config import logger
 
 
 class Worker:
@@ -14,7 +15,7 @@ class Worker:
         self,
         rabbit_service: RabbitService,
         sender_service: SendgridService,
-        rabbit_task_queue: str,
+        rabbit_task_queue: str
     ):
         """"""
         self.rabbit = rabbit_service
@@ -64,7 +65,7 @@ class Worker:
                 )
             return message_to_send
         except ValidationError as err:
-            print(err)
+            logger.error(msg=err.json(), exc_info=True)
 
     async def work(self):
         """Метод собирает асинхронные задачи и запускает их"""

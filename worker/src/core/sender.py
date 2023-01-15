@@ -1,9 +1,10 @@
-import os
 from abc import ABC
 from typing import Any
 
 from python_http_client.client import Response
 from sendgrid import Mail, SendGridAPIClient
+
+from core.config import settings
 
 
 class Sender(ABC):
@@ -28,7 +29,7 @@ class SendgridService(EmailSender):
 
     async def send(self, message: Any) -> None:
         email = Mail(
-            from_email=os.getenv("FROM_EMAIL", "vasya@yandex.ru"),
+            from_email=settings.from_email,
             to_emails=message.email,
             subject=message.subject,
             plain_text_content=message.text,

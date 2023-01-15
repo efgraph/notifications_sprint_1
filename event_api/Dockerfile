@@ -9,7 +9,8 @@ RUN  pip install --upgrade pip && pip install -r requirements.txt --no-cache-dir
 
 COPY . .
 
-WORKDIR ./src
-CMD python core/waiter.py && python core/up_rabbit_queues.py && uvicorn main:app --host 0.0.0.0 --port 10000 --reload
+RUN chmod +x /event_api/docker-entrypoint.sh
+
+ENTRYPOINT sh /event_api/docker-entrypoint.sh
 
 EXPOSE 10000

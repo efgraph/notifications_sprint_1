@@ -2,12 +2,14 @@
 import aio_pika
 import uvicorn as uvicorn
 from api.v1 import event
-from core import config, rabbit
+from core import rabbit
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from core.config import settings
+
 app = FastAPI(
-    title=config.PROJECT_NAME,
+    title='event_api',
     docs_url="/api/openapi",
     openapi_url="/api/openapi.json",
     default_response_class=ORJSONResponse,
@@ -16,7 +18,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 async def startup():
-    rabbit.rabbit_connection = await aio_pika.connect_robust(url=config.RABBIT_DSN)
+    rabbit.rabbit_connection = await aio_pika.connect_robust(url=settings.rabbit_dsn)
 
 
 @app.on_event("shutdown")
